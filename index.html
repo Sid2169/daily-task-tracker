@@ -4,78 +4,303 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111827">
-  <title>Daily Task Tracker | Nov 17 – Dec 16, 2026</title>
+  <title>Daily Task Tracker | November 2026</title>
   <style>
     :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--bg:#f6f8fc}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}main{max-width:1240px;margin:0 auto;padding:32px 16px 60px}
-    header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:22px}h1{font-size:clamp(1.6rem,4vw,2.25rem);margin:0 0 8px;letter-spacing:-.035em}p{margin:0;color:var(--muted);line-height:1.5}.actions{display:flex;gap:8px;flex-wrap:wrap}button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 13px;cursor:pointer;color:var(--ink)}button:hover{background:#eef4ff}button:focus-visible,input:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}.danger{color:#b91c1c}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}
+    .app{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;max-width:1400px;margin:0 auto;padding:28px 16px 60px;align-items:start}
+    main{min-width:0}
+    header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+    .heading{display:flex;gap:10px;align-items:flex-start}
+    h1{font-size:clamp(1.6rem,4vw,2.25rem);margin:0 0 8px;letter-spacing:-.035em}
+    p{margin:0;color:var(--muted);line-height:1.5}
+    button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 13px;cursor:pointer;color:var(--ink)}
+    button:hover{background:#eef4ff}
+    button:focus-visible,input:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+    .danger{color:#b91c1c}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .menu-toggle{display:none;align-items:center;justify-content:center;padding:8px 11px;font-size:1.1rem;line-height:1}
+    .sidebar{position:sticky;top:22px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 44px);padding:16px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px #17203308}
+    .brand{display:flex;gap:10px;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line)}
+    .brand-mark{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:10px;background:#2563eb;color:#fff;font-weight:700;font-size:.85rem;letter-spacing:.02em}
+    .brand strong{display:block;font-size:.95rem;letter-spacing:-.01em}
+    .brand small{color:var(--muted);font-size:.75rem}
+    .month-list{display:flex;flex-direction:column;gap:6px;overflow:auto;margin:0;padding:0}
+    .month-link{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;padding:10px 12px;border:1px solid transparent;border-radius:10px;background:transparent;text-align:left}
+    .month-link:hover{background:#eef4ff}
+    .month-link.active{border-color:#bfdbfe;background:#e8f0ff;color:#1d4ed8;font-weight:600}
+    .month-link small{color:var(--muted);font-size:.72rem;font-weight:500;white-space:nowrap}
+    .month-link.active small{color:#3b6fd4}
+    .add-month{width:100%;border-style:dashed;color:var(--accent);background:#f8fbff;font-weight:600}
+    .add-month:hover{background:#eef4ff}
+    .backdrop{display:none}
     .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 18px #17203308}.stat{padding:18px}.stat strong{display:block;font-size:1.5rem;margin-top:5px}.stat span{color:var(--muted);font-size:.85rem}.progress{height:9px;border-radius:99px;background:#e2e8f0;overflow:hidden;margin-top:12px}.progress>div{height:100%;background:#22a06b;width:0%;transition:width .2s}
     .panel{overflow:hidden}.table-wrap{overflow:auto;max-height:75vh}table{width:100%;border-collapse:separate;border-spacing:0;min-width:790px}th,td{border-bottom:1px solid var(--line);padding:9px 7px;text-align:center}thead th{position:sticky;top:0;background:#f8fafc;z-index:2;font-size:.85rem}th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:#fff;text-align:left;padding-left:16px;white-space:nowrap;min-width:125px}thead th:first-child{z-index:3;background:#f8fafc}tbody tr:hover td{background:#f8fbff}tbody tr:hover td:first-child{background:#f8fbff}tbody tr.today td{background:#eff6ff}tbody tr.today td:first-child{background:#eff6ff}tbody tr:last-child td{border-bottom:0}td small{display:block;color:var(--muted);font-size:.7rem;margin-top:2px}input[type=checkbox]{width:20px;height:20px;accent-color:#16a34a;cursor:pointer;vertical-align:middle}tfoot td{font-weight:600;background:#f8fafc}tfoot td:first-child{background:#f8fafc}footer{margin-top:14px;color:var(--muted);font-size:.85rem;line-height:1.5}
-    @media(max-width:600px){main{padding:20px 10px 40px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:1.15rem}.stat span{font-size:.75rem}th,td{padding:10px 6px}}
-    @media print{body{background:#fff}main{max-width:none;padding:0}.actions,footer{display:none}.panel,.stat{box-shadow:none}.table-wrap{max-height:none;overflow:visible}table{min-width:0}thead th,th:first-child,td:first-child{position:static}input[type=checkbox]{print-color-adjust:exact}tr{break-inside:avoid}}
+    @media(max-width:860px){.app{grid-template-columns:minmax(0,1fr);padding:18px 12px 50px}.sidebar{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;border-radius:0 16px 16px 0;z-index:50;transform:translateX(-105%);transition:transform .22s ease;box-shadow:0 20px 60px #0f172a33}.sidebar.open{transform:none}.backdrop{display:block;position:fixed;inset:0;z-index:40;background:#0f172a66}.backdrop[hidden]{display:none}.menu-toggle{display:inline-flex}}
+    @media(max-width:600px){.app{padding:16px 10px 40px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:1.15rem}.stat span{font-size:.75rem}th,td{padding:10px 6px}.month-link{padding:9px 8px}}
+    @media print{body{background:#fff}.app{display:block;max-width:none;padding:0}main{max-width:none;padding:0}.sidebar,.backdrop,.menu-toggle,.actions,footer{display:none!important}.panel,.stat{box-shadow:none}.table-wrap{max-height:none;overflow:visible}table{min-width:0}thead th,th:first-child,td:first-child{position:static}input[type=checkbox]{print-color-adjust:exact}tr{break-inside:avoid}}
   </style>
 </head>
 <body>
-<main>
-  <header>
-    <div><h1>Daily Task Tracker</h1><p>17 November – 16 December 2026 · 30 days · Tasks T1–T11</p></div>
-    <div class="actions"><button type="button" id="print">Print</button><button type="button" id="reset" class="danger">Reset all</button></div>
-  </header>
-  <section class="stats" aria-label="Progress summary">
-    <div class="stat"><span>Completed tasks</span><strong id="completed">0 / 330</strong></div>
-    <div class="stat"><span>Overall progress</span><strong id="percentage">0%</strong><div class="progress" role="progressbar" aria-label="Overall task completion" aria-valuemin="0" aria-valuemax="330" aria-valuenow="0" id="progress"><div id="progressFill"></div></div></div>
-    <div class="stat"><span>Fully completed days</span><strong id="days">0 / 30</strong></div>
-  </section>
-  <section class="panel" aria-label="Daily task checklist"><div class="table-wrap"><table id="tracker"><thead><tr><th scope="col">Date</th><th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th><th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th><th scope="col">T7</th><th scope="col">T8</th><th scope="col">T9</th><th scope="col">T10</th><th scope="col">T11</th></tr></thead><tbody id="rows"></tbody><tfoot><tr><td>Completed</td><td colspan="11" id="footerCount">0 of 330 tasks checked</td></tr></tfoot></table></div></section>
-  <footer>✓ Your changes are saved automatically in this browser. Data is stored locally on your device, not synced between browsers or devices. No account or server is required.</footer>
-</main>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Month navigation">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">DT</span>
+      <div><strong>Daily Task Tracker</strong><small>Monthly checklist</small></div>
+    </div>
+    <nav class="month-list" id="monthList" aria-label="Months"></nav>
+    <button type="button" class="add-month" id="addMonth">+ Add month</button>
+  </aside>
+  <div class="backdrop" id="backdrop" hidden></div>
+  <main>
+    <header>
+      <div class="heading">
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open month navigation" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
+        <div>
+          <h1 id="monthHeading">November 2026</h1>
+          <p id="monthSubheading">1 – 30 November 2026 · 30 days · Tasks T1–T11</p>
+        </div>
+      </div>
+      <div class="actions"><button type="button" id="print">Print</button><button type="button" id="reset" class="danger">Reset month</button></div>
+    </header>
+    <section class="stats" aria-label="Progress summary">
+      <div class="stat"><span>Completed tasks</span><strong id="completed">0 / 330</strong></div>
+      <div class="stat"><span>Monthly progress</span><strong id="percentage">0%</strong><div class="progress" role="progressbar" aria-label="Monthly task completion" aria-valuemin="0" aria-valuemax="330" aria-valuenow="0" id="progress"><div id="progressFill"></div></div></div>
+      <div class="stat"><span>Fully completed days</span><strong id="days">0 / 30</strong></div>
+    </section>
+    <section class="panel" aria-label="Daily task checklist"><div class="table-wrap"><table id="tracker"><thead><tr><th scope="col">Date</th><th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th><th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th><th scope="col">T7</th><th scope="col">T8</th><th scope="col">T9</th><th scope="col">T10</th><th scope="col">T11</th></tr></thead><tbody id="rows"></tbody><tfoot><tr><td>Completed</td><td colspan="11" id="footerCount">0 of 330 tasks checked</td></tr></tfoot></table></div></section>
+    <footer>✓ Your changes are saved automatically in this browser. Data is stored locally on your device, not synced between browsers or devices. No account or server is required.</footer>
+  </main>
+</div>
 <script>
 (()=>{
   'use strict';
-  const START = new Date(Date.UTC(2026,10,17));
-  const DAYS = 30, TASKS = 11, STORAGE_KEY = 'daily-task-tracker-2026-11-17-v1';
+  const TASKS = 11;
+  const STORAGE_KEY = 'daily-task-tracker-v2';
+  const LEGACY_KEY = 'daily-task-tracker-2026-11-17-v1';
+  const DEFAULT_MONTHS = ['2026-11', '2026-12'];
   const tbody = document.getElementById('rows');
-  const fmt = new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',timeZone:'UTC'});
-  const weekday = new Intl.DateTimeFormat('en-GB',{weekday:'short',timeZone:'UTC'});
+  const monthList = document.getElementById('monthList');
+  const monthHeading = document.getElementById('monthHeading');
+  const monthSubheading = document.getElementById('monthSubheading');
+  const progressEl = document.getElementById('progress');
+  const progressFill = document.getElementById('progressFill');
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('backdrop');
+  const menuToggle = document.getElementById('menuToggle');
+  const monthNameFmt = new Intl.DateTimeFormat('en-GB', {month:'long', timeZone:'UTC'});
+  const fmt = new Intl.DateTimeFormat('en-GB', {day:'numeric', month:'short', timeZone:'UTC'});
+  const weekday = new Intl.DateTimeFormat('en-GB', {weekday:'short', timeZone:'UTC'});
   const today = new Date();
-  const todayKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-  let saved = {};
-  try { const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'); if(data && typeof data==='object' && !Array.isArray(data)) saved=data; } catch(e) { console.warn('Saved checklist could not be read.',e); }
-  const dates=[];
-  for(let i=0;i<DAYS;i++){
-    const date=new Date(START.getTime()+i*86400000);
-    const dateKey=date.toISOString().slice(0,10);dates.push(dateKey);
-    const tr=document.createElement('tr');if(dateKey===todayKey)tr.classList.add('today');
-    const heading=document.createElement('td');heading.innerHTML=`<strong>${fmt.format(date)}</strong><small>${weekday.format(date)}${dateKey===todayKey?' · Today':''}</small>`;tr.appendChild(heading);
-    for(let t=1;t<=TASKS;t++){
-      const td=document.createElement('td');const cb=document.createElement('input');cb.type='checkbox';
-      const key=`${dateKey}-T${t}`;cb.dataset.key=key;cb.checked=saved[key]===true;
-      cb.setAttribute('aria-label',`${dateKey}, task T${t}`);td.appendChild(cb);tr.appendChild(td);
+  const todayKey = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+  const todayMonthKey = `${today.getFullYear()}-${pad(today.getMonth()+1)}`;
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+  function isValidMonthKey(key){ return typeof key === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(key); }
+  function monthParts(key){ const [year, month] = key.split('-').map(Number); return {year, month}; }
+  function monthDate(key){ const {year, month} = monthParts(key); return new Date(Date.UTC(year, month-1, 1)); }
+  function monthLabel(key){ return `${monthNameFmt.format(monthDate(key))} ${monthParts(key).year}`; }
+  function daysInMonth(key){ const {year, month} = monthParts(key); return new Date(Date.UTC(year, month, 0)).getUTCDate(); }
+  function nextMonthKey(key){ const {year, month} = monthParts(key); return month === 12 ? `${year+1}-01` : `${year}-${pad(month+1)}`; }
+
+  function loadState(){
+    let months = null, checks = null;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const data = JSON.parse(raw);
+        if(data && Array.isArray(data.months) && data.checks && typeof data.checks === 'object' && !Array.isArray(data.checks)){
+          const filtered = Array.from(new Set(data.months.filter(isValidMonthKey))).sort();
+          if(filtered.length){ months = filtered; checks = {...data.checks}; }
+        }
+      }
+    } catch(err) { console.warn('Saved tracker could not be read.', err); }
+    if(!months){
+      months = DEFAULT_MONTHS.slice();
+      checks = {};
+      try {
+        const legacy = JSON.parse(localStorage.getItem(LEGACY_KEY) || '{}');
+        if(legacy && typeof legacy === 'object' && !Array.isArray(legacy)) checks = {...legacy};
+      } catch(err) { console.warn('Previous checklist could not be read.', err); }
     }
-    tbody.appendChild(tr);
+    return {months, checks};
   }
-  function update(){
-    const all=[...tbody.querySelectorAll('input[type="checkbox"]')];const count=all.filter(cb=>cb.checked).length;
-    const fullDays=dates.filter(d=>Array.from({length:TASKS},(_,i)=>saved[`${d}-T${i+1}`]===true).every(Boolean)).length;
-    document.getElementById('completed').textContent=`${count} / ${DAYS*TASKS}`;
-    document.getElementById('percentage').textContent=`${Math.round(count/(DAYS*TASKS)*100)}%`;
-    document.getElementById('days').textContent=`${fullDays} / ${DAYS}`;
-    document.getElementById('progressFill').style.width=`${count/(DAYS*TASKS)*100}%`;
-    document.getElementById('progress').setAttribute('aria-valuenow',String(count));
-    document.getElementById('footerCount').textContent=`${count} of ${DAYS*TASKS} tasks checked`;
+
+  const state = loadState();
+  let activeKey = state.months.includes(todayMonthKey) ? todayMonthKey : state.months[state.months.length-1];
+
+  function save(silent){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch(err) {
+      if(silent) console.warn(err);
+      else alert('Could not save progress in this browser. Check your storage settings.');
+    }
   }
-  tbody.addEventListener('change',e=>{if(!e.target.matches('input[type="checkbox"]'))return;
-    const {key}=e.target.dataset;if(e.target.checked)saved[key]=true;else delete saved[key];
-    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(saved));}catch(err){alert('Could not save progress in this browser. Check your storage settings.');}
-    update();
+
+  function monthStats(key){
+    const days = daysInMonth(key), total = days * TASKS;
+    let count = 0;
+    for(const k in state.checks){ if(state.checks[k] === true && k.startsWith(`${key}-`)) count++; }
+    let full = 0;
+    for(let day = 1; day <= days; day++){
+      const dateKey = `${key}-${pad(day)}`;
+      let complete = true;
+      for(let t = 1; t <= TASKS; t++){
+        if(state.checks[`${dateKey}-T${t}`] !== true){ complete = false; break; }
+      }
+      if(complete) full++;
+    }
+    return {count, total, full, days};
+  }
+
+  function renderSidebar(){
+    monthList.innerHTML = '';
+    state.months.forEach(key => {
+      const btn = document.createElement('button');
+      const stats = monthStats(key);
+      btn.type = 'button';
+      btn.className = 'month-link';
+      btn.dataset.month = key;
+      if(key === activeKey){ btn.classList.add('active'); btn.setAttribute('aria-current', 'page'); }
+      btn.innerHTML = `<span>${monthLabel(key)}</span><small>${stats.count} / ${stats.total}</small>`;
+      btn.addEventListener('click', () => selectMonth(key));
+      monthList.appendChild(btn);
+    });
+  }
+
+  function updateSidebarBadges(){
+    monthList.querySelectorAll('.month-link').forEach(btn => {
+      const stats = monthStats(btn.dataset.month);
+      const small = btn.querySelector('small');
+      if(small) small.textContent = `${stats.count} / ${stats.total}`;
+    });
+  }
+
+  function renderMonth(){
+    const {year, month} = monthParts(activeKey);
+    const days = daysInMonth(activeKey);
+    const first = new Date(Date.UTC(year, month-1, 1));
+    const monthName = monthNameFmt.format(first);
+    monthHeading.textContent = monthLabel(activeKey);
+    monthSubheading.textContent = `${days === 1 ? '1' : `1 – ${days}`} ${monthName} ${year} · ${days} ${days === 1 ? 'day' : 'days'} · Tasks T1–T11`;
+    document.title = `Daily Task Tracker | ${monthLabel(activeKey)}`;
+    tbody.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    for(let day = 1; day <= days; day++){
+      const date = new Date(Date.UTC(year, month-1, day));
+      const dateKey = `${activeKey}-${pad(day)}`;
+      const tr = document.createElement('tr');
+      if(dateKey === todayKey) tr.classList.add('today');
+      const heading = document.createElement('td');
+      heading.innerHTML = `<strong>${fmt.format(date)}</strong><small>${weekday.format(date)}${dateKey === todayKey ? ' · Today' : ''}</small>`;
+      tr.appendChild(heading);
+      for(let t = 1; t <= TASKS; t++){
+        const td = document.createElement('td');
+        const cb = document.createElement('input');
+        const key = `${dateKey}-T${t}`;
+        cb.type = 'checkbox';
+        cb.dataset.key = key;
+        cb.checked = state.checks[key] === true;
+        cb.setAttribute('aria-label', `${fmt.format(date)} ${year}, task T${t}`);
+        td.appendChild(cb);
+        tr.appendChild(td);
+      }
+      frag.appendChild(tr);
+    }
+    tbody.appendChild(frag);
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const days = daysInMonth(activeKey), total = days * TASKS;
+    const count = Array.from(tbody.querySelectorAll('input[type="checkbox"]')).filter(cb => cb.checked).length;
+    let fullDays = 0;
+    for(let day = 1; day <= days; day++){
+      const dateKey = `${activeKey}-${pad(day)}`;
+      let complete = true;
+      for(let t = 1; t <= TASKS; t++){
+        if(state.checks[`${dateKey}-T${t}`] !== true){ complete = false; break; }
+      }
+      if(complete) fullDays++;
+    }
+    document.getElementById('completed').textContent = `${count} / ${total}`;
+    document.getElementById('percentage').textContent = `${Math.round(count / total * 100)}%`;
+    document.getElementById('days').textContent = `${fullDays} / ${days}`;
+    progressFill.style.width = `${count / total * 100}%`;
+    progressEl.setAttribute('aria-valuemax', String(total));
+    progressEl.setAttribute('aria-valuenow', String(count));
+    document.getElementById('footerCount').textContent = `${count} of ${total} tasks checked`;
+  }
+
+  function openSidebar(){
+    sidebar.classList.add('open');
+    backdrop.hidden = false;
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeSidebar(){
+    if(!sidebar.classList.contains('open')) return;
+    sidebar.classList.remove('open');
+    backdrop.hidden = true;
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function selectMonth(key){
+    if(!state.months.includes(key)) return;
+    const changed = key !== activeKey;
+    activeKey = key;
+    if(changed){
+      renderSidebar();
+      renderMonth();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+    closeSidebar();
+  }
+
+  function addMonth(){
+    let next = nextMonthKey(state.months[state.months.length-1] || todayMonthKey);
+    while(state.months.includes(next)) next = nextMonthKey(next);
+    state.months.push(next);
+    state.months.sort();
+    activeKey = next;
+    save();
+    renderSidebar();
+    renderMonth();
+    closeSidebar();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  tbody.addEventListener('change', e => {
+    const cb = e.target;
+    if(!cb.matches('input[type="checkbox"]')) return;
+    const {key} = cb.dataset;
+    if(cb.checked) state.checks[key] = true;
+    else delete state.checks[key];
+    save();
+    updateProgress();
+    updateSidebarBadges();
   });
-  document.getElementById('reset').addEventListener('click',()=>{
-    if(!confirm('Clear all 330 checkboxes? This cannot be undone.'))return;
-    saved={};tbody.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
-    try{localStorage.removeItem(STORAGE_KEY);}catch(err){console.warn(err);}update();
+
+  document.getElementById('reset').addEventListener('click', () => {
+    const total = daysInMonth(activeKey) * TASKS;
+    if(!confirm(`Clear all ${total} checkboxes for ${monthLabel(activeKey)}? This cannot be undone.`)) return;
+    const prefix = `${activeKey}-`;
+    Object.keys(state.checks).forEach(k => { if(k.startsWith(prefix)) delete state.checks[k]; });
+    save();
+    tbody.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+    updateProgress();
+    updateSidebarBadges();
   });
-  document.getElementById('print').addEventListener('click',()=>window.print());
-  update();
+
+  document.getElementById('print').addEventListener('click', () => window.print());
+  document.getElementById('addMonth').addEventListener('click', addMonth);
+  menuToggle.addEventListener('click', () => { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+  backdrop.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeSidebar(); });
+
+  renderSidebar();
+  renderMonth();
+  save(true);
 })();
 </script>
 </body>
