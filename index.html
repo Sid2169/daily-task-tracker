@@ -17,8 +17,10 @@
     .heading{display:flex;gap:10px;align-items:flex-start}
     h1{font-size:clamp(1.6rem,4vw,2.25rem);margin:0 0 8px;letter-spacing:-.035em}
     p{margin:0;color:var(--muted);line-height:1.5}
-    button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 13px;cursor:pointer;color:var(--ink)}
-    button:hover{background:#eef4ff}
+    button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 13px;cursor:pointer;color:var(--ink);transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .12s ease}
+    button:hover{background:#eef4ff;border-color:#bfdbfe;box-shadow:0 3px 9px #17203312;transform:translateY(-1px)}
+    button:active{transform:translateY(1px) scale(.98);box-shadow:inset 0 2px 4px #17203318}
+    button:disabled{cursor:not-allowed;transform:none;box-shadow:none;opacity:.65}
     .theme-toggle{position:absolute;top:0;right:0;display:grid;place-items:center;width:42px;height:42px;padding:9px;border-radius:12px;color:var(--accent)}.theme-toggle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
     button:focus-visible,input:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
     .danger{color:#b91c1c}
@@ -52,7 +54,7 @@
     :root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr.today:hover td{background:#26364d!important}
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]) tbody tr:hover td,:root:not([data-theme="light"]):not([data-theme="dark"]) tbody tr.today:hover td{background:#26364d!important}}
     :root[data-theme="dark"] input[type=checkbox].past-date:not(:checked){background:#7f1d1d;border-color:#ef4444}
-    .table-controls{display:flex;justify-content:flex-end;padding:7px 10px 0}.table-controls button{padding:6px 10px;font-size:.85rem}
+    .table-controls{display:flex;justify-content:flex-end;gap:10px;padding:7px 10px 0}.table-controls button{padding:6px 10px;font-size:.85rem}
     #tableViewport{overflow:auto;height:var(--table-viewport-height,300px);max-height:none;overflow-anchor:none;scroll-behavior:auto}
     #tableScrollTail{height:var(--table-tail-height,0px);pointer-events:none}
     @media print{#tableViewport{height:auto;max-height:none;overflow:visible}.table-controls,#tableScrollTail{display:none}}
@@ -94,7 +96,7 @@
     <details class="schedule"><summary>Task time slots · each task expires at its editable end time</summary><div class="schedule-grid" id="scheduleGrid"></div></details>
     <section id="qrPanel" class="schedule" hidden><button id="closeQr" type="button">Close</button><p id="qrStatus">Transfer QR</p><canvas id="qrCanvas"></canvas><video id="qrVideo" playsinline hidden></video><button id="nextQr" type="button" hidden>Next code</button></section>
     <section class="panel" aria-label="Daily task checklist">
-      <div class="table-controls"><button type="button" id="tableExpand" aria-expanded="false" aria-controls="tableViewport">Expand table</button></div>
+      <div class="table-controls"><button type="button" id="goToday">Go to today</button><button type="button" id="tableExpand" aria-expanded="false" aria-controls="tableViewport">Expand table</button></div>
       <div class="table-wrap" id="tableViewport" tabindex="0" role="region" aria-label="Scrollable daily tasks">
         <table id="tracker">
           <thead><tr><th scope="col">Date</th><th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th><th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th><th scope="col">T7</th><th scope="col">T8</th><th scope="col">T9</th><th scope="col">T10</th><th scope="col">T11</th></tr></thead>
@@ -545,6 +547,7 @@
 
   document.getElementById('print').addEventListener('click', () => window.print());
   tableExpand.addEventListener('click',()=>{tableExpanded=!tableExpanded;layoutTaskTable(true);});
+  document.getElementById('goToday').addEventListener('click',()=>{syncCurrentMonth();if(activeKey!==todayMonthKey){activeKey=todayMonthKey;renderSidebar();renderMonth();}else scheduleTableLayout(true);});
   window.addEventListener('resize',()=>scheduleTableLayout());
   document.getElementById('exportData').addEventListener('click', exportData);
   document.getElementById('showQr').addEventListener('click',showTransferQr);
