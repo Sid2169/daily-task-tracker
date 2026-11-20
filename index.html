@@ -61,6 +61,8 @@
     @media(max-width:860px){.app{grid-template-columns:minmax(0,1fr);padding:18px 12px 50px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;border-radius:0 16px 16px 0;z-index:50;transform:translateX(-105%);transition:transform .22s ease;box-shadow:0 20px 60px #0f172a33}.sidebar.open{transform:none}.backdrop{display:block;position:fixed;inset:0;z-index:40;background:#0f172a66}.backdrop[hidden]{display:none}.menu-toggle{display:inline-flex}}
     @media(max-width:600px){.app{padding:16px 10px 40px}.stats{gap:8px}.stat{padding:12px;min-height:100px}.stat strong{font-size:1.15rem}.stat span{font-size:.75rem}.slot-timer{align-items:flex-start;flex-direction:column;gap:6px;min-height:0}th,td{padding:10px 6px}.month-link{padding:9px 8px}}
     @media print{body{background:#fff}.app{display:block;max-width:none;padding:0}main{max-width:none;padding:0}.sidebar,.backdrop,.menu-toggle,.actions,footer{display:none!important}.panel,.stat{box-shadow:none}.table-wrap{max-height:none;overflow:visible}table{min-width:0}thead th,th:first-child,td:first-child{position:static}input[type=checkbox]{print-color-adjust:exact}tr{break-inside:avoid}}
+    .tools-menu{position:relative;display:block;align-self:flex-end}.tools-menu summary{cursor:pointer;padding:10px 14px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}.tools-list{position:absolute;right:0;top:calc(100% + 8px);z-index:60;display:grid;gap:6px;width:210px;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px #0003}.tools-list button{text-align:left}
+    #importChoice{width:min(440px,calc(100% - 32px));border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--surface);color:var(--ink)}#importChoice::backdrop{background:#0008}#importChoice h2{margin-top:0}#importChoice form{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}#qrPanel canvas,#qrPanel video{display:block;max-width:100%;height:auto;margin:12px auto}#qrPanel [hidden]{display:none}#qrPanel progress{width:100%;margin:10px 0}#qrPanel p{margin-top:8px}
   </style>
 </head>
 <body>
@@ -84,7 +86,7 @@
         </div>
       </div>
       <button type="button" class="theme-toggle" id="themeToggle" aria-label="Color theme: System" title="Color theme: System"></button>
-      <div class="actions"><button type="button" id="exportData">Export data</button><button type="button" id="importData">Import data</button><button type="button" id="showQr">Show transfer QR</button><button type="button" id="scanQr">Scan transfer QR</button><input id="importFile" type="file" accept="application/json,.json" hidden><button type="button" id="print">Print</button><button type="button" id="reset" class="danger">Reset month</button></div>
+      <details class="actions tools-menu"><summary>More actions</summary><div class="tools-list"><button type="button" id="exportData">Export data</button><button type="button" id="importData">Import data</button><button type="button" id="showQr">Send via QR</button><button type="button" id="scanQr">Receive via QR</button><input id="importFile" type="file" accept="application/json,.json" hidden><button type="button" id="print">Print</button><button type="button" id="reset" class="danger">Reset editable tasks</button></div></details>
     </header>
     <div class="stats-toolbar" role="group" aria-label="Stats period"><button type="button" data-period="daily" aria-pressed="false">Daily</button><button type="button" data-period="weekly" aria-pressed="false">Weekly</button><button type="button" data-period="monthly" aria-pressed="true">Monthly</button></div>
     <section class="stats" aria-label="Progress summary">
@@ -109,6 +111,7 @@
     <footer>✓ Your changes are saved automatically in this browser. Data is stored locally on your device, not synced between browsers or devices. No account or server is required.</footer>
   </main>
 </div>
+<dialog id="importChoice" aria-labelledby="importTitle"><h2 id="importTitle">Import tracker data</h2><p>Merge keeps completed tasks from both devices. Replace restores this backup and removes current data. Both apply the imported schedule and theme.</p><form method="dialog"><button value="cancel" autofocus>Cancel</button><button value="merge">Merge</button><button value="replace" class="danger">Replace current data</button></form></dialog>
 <script src="vendor/qr-transfer.js"></script>
 <script>
 (()=>{
@@ -166,6 +169,11 @@
   function applyTheme(){if(themeChoice==='system'){if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark';else document.documentElement.removeAttribute('data-theme');}else document.documentElement.dataset.theme=themeChoice;const b=document.getElementById('themeToggle');const names={system:'System theme',light:'Light theme',dark:'Dark theme'};b.setAttribute('aria-label',`Color theme: ${names[themeChoice]}`);b.title=`Color theme: ${names[themeChoice]}`;b.innerHTML=themeChoice==='light'?'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>':themeChoice==='dark'?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>';}
   document.getElementById('themeToggle').addEventListener('click',()=>{const modes=['system','light','dark'];themeChoice=modes[(modes.indexOf(themeChoice)+1)%modes.length];localStorage.setItem('daily-task-tracker-theme',themeChoice);applyTheme();});
   applyTheme();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(themeChoice==='system')applyTheme();});
+  const toolsMenu=document.querySelector('.tools-menu');
+  toolsMenu.addEventListener('click',e=>{if(e.target.closest('button'))toolsMenu.open=false;});
+  document.addEventListener('click',e=>{if(!toolsMenu.contains(e.target))toolsMenu.open=false;});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')toolsMenu.open=false;});
   const monthNameFmt = new Intl.DateTimeFormat('en-GB', {month:'long', timeZone:'UTC'});
   const fmt = new Intl.DateTimeFormat('en-GB', {day:'numeric', month:'short', timeZone:'UTC'});
   const weekday = new Intl.DateTimeFormat('en-GB', {weekday:'short', timeZone:'UTC'});
@@ -238,8 +246,12 @@
   async function importDataFile(file){
     try{
       const incoming=validateBackup(JSON.parse(await file.text()));
-      const mode=confirm('Choose OK to merge this backup with existing data. Choose Cancel to replace existing tracker data.');
-      if(mode){
+      const dialog=document.getElementById('importChoice');
+      if(dialog.open)return;
+      const mode=await new Promise(resolve=>{dialog.returnValue='cancel';dialog.addEventListener('close',()=>resolve(dialog.returnValue),{once:true});dialog.showModal();});
+      if(!['merge','replace'].includes(mode))return;
+      if(mode==='replace'&&!confirm('Replace all current tracker data and settings with this backup?'))return;
+      if(mode==='merge'){
         state.months=Array.from(new Set([...state.months,...incoming.months])).sort();
         state.checks={...state.checks,...incoming.checks};
       } else {
@@ -258,21 +270,30 @@
   const qrEncoder=window.require&&window.require('qrcode');
   const qrDecoder=window.require&&window.require('jsqr');
   let qrParts=[],qrIndex=0,qrSeen=new Set(),qrStream=null,scanFrame=null;
+  let qrCycle;
+  const qrHelp=document.createElement('p'),qrProgress=document.createElement('progress');
+  qrProgress.setAttribute('aria-label','QR transfer progress');
+  document.getElementById('qrPanel').append(qrHelp,qrProgress);
   function currentBackup(){return {format:'daily-task-tracker',version:1,months:state.months,checks:state.checks,taskTimes:state.taskTimes,taskDurations:state.taskDurations,theme:themeChoice};}
   async function showTransferQr(){
+    stopQrCamera();clearInterval(qrCycle);
     if(!qrEncoder){alert('QR encoder unavailable.');return;}
     const bytes=btoa(unescape(encodeURIComponent(JSON.stringify(currentBackup()))));
     const size=700; const count=Math.ceil(bytes.length/size); qrParts=Array.from({length:count},(_,i)=>`DTT1:${i+1}/${count}:${bytes.slice(i*size,(i+1)*size)}`); qrIndex=0;
-    document.getElementById('qrPanel').hidden=false; document.getElementById('qrVideo').hidden=true; document.getElementById('nextQr').hidden=count<2; await drawQrPart();
+    document.getElementById('qrPanel').hidden=false; document.getElementById('qrVideo').hidden=true;document.getElementById('qrCanvas').hidden=false; document.getElementById('nextQr').hidden=count<2;
+    qrHelp.textContent='On the other device, open More actions → Receive via QR. Point its camera here. Codes advance automatically every 3 seconds and repeat until you close this panel. The receiving device confirms completion.';
+    await drawQrPart();if(count>1)qrCycle=setInterval(()=>{qrIndex=(qrIndex+1)%qrParts.length;drawQrPart();},3000);
   }
-  async function drawQrPart(){const canvas=document.getElementById('qrCanvas');await qrEncoder.toCanvas(canvas,qrParts[qrIndex],{width:320,margin:2});document.getElementById('qrStatus').textContent=`Transfer code ${qrIndex+1} of ${qrParts.length}`;}
+  async function drawQrPart(){const canvas=document.getElementById('qrCanvas');await qrEncoder.toCanvas(canvas,qrParts[qrIndex],{width:320,margin:2});document.getElementById('qrStatus').textContent=`Sending · code ${qrIndex+1} of ${qrParts.length}`;qrProgress.max=qrParts.length;qrProgress.value=qrIndex+1;}
   async function scanTransferQr(){
+    stopQrCamera();clearInterval(qrCycle);document.getElementById('qrCanvas').hidden=true;document.getElementById('nextQr').hidden=true;
+    qrHelp.textContent='On the other device, choose More actions → Send via QR. Hold this camera over its codes until all are collected. You can then Merge, Replace, or Cancel.';qrProgress.max=1;qrProgress.value=0;document.getElementById('qrStatus').textContent='Receiving · waiting for the first code';
     if(!qrDecoder){alert('QR scanner unavailable.');return;}
     try{qrStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});const video=document.getElementById('qrVideo');video.srcObject=qrStream;video.hidden=false;await video.play();document.getElementById('qrPanel').hidden=false;qrParts=[];qrSeen.clear();scanFrame=requestAnimationFrame(scanQrFrame);}catch(err){alert('Camera access failed. Use Import data to select a JSON backup instead.');}
   }
-  async function scanQrFrame(){const video=document.getElementById('qrVideo');if(video.readyState>=2){const c=document.createElement('canvas');c.width=video.videoWidth;c.height=video.videoHeight;const x=c.getContext('2d');x.drawImage(video,0,0);const img=x.getImageData(0,0,c.width,c.height);const hit=qrDecoder(img.data,img.width,img.height);if(hit&&hit.data){const m=hit.data.match(/^DTT1:(\d+)\/(\d+):(.+)$/);if(m){const n=Number(m[1]),total=Number(m[2]);qrParts.length=total;qrParts[n-1]=m[3];qrSeen.add(n);document.getElementById('qrStatus').textContent=`Scanned ${qrSeen.size} of ${total} codes`;if(qrSeen.size===total){stopQrCamera();try{const raw=qrParts.join('');const data=JSON.parse(decodeURIComponent(escape(atob(raw))));validateBackup(data);const blob=new Blob([JSON.stringify(data)],{type:'application/json'});await importDataFile(new File([blob],'qr-backup.json',{type:'application/json'}));closeQrPanel();}catch(e){alert(`QR transfer failed: ${e.message}`);}}}}}scanFrame=requestAnimationFrame(scanQrFrame);}
+  async function scanQrFrame(){const video=document.getElementById('qrVideo');if(video.readyState>=2){const c=document.createElement('canvas');c.width=video.videoWidth;c.height=video.videoHeight;const x=c.getContext('2d');x.drawImage(video,0,0);const img=x.getImageData(0,0,c.width,c.height);const hit=qrDecoder(img.data,img.width,img.height);if(hit&&hit.data){const m=hit.data.match(/^DTT1:(\d+)\/(\d+):(.+)$/);if(m){const n=Number(m[1]),total=Number(m[2]);qrParts.length=total;qrParts[n-1]=m[3];qrSeen.add(n);qrProgress.max=total;qrProgress.value=qrSeen.size;document.getElementById('qrStatus').textContent=`Scanned ${qrSeen.size} of ${total} codes`;if(qrSeen.size===total){stopQrCamera();try{const raw=qrParts.join('');const data=JSON.parse(decodeURIComponent(escape(atob(raw))));validateBackup(data);const blob=new Blob([JSON.stringify(data)],{type:'application/json'});await importDataFile(new File([blob],'qr-backup.json',{type:'application/json'}));closeQrPanel();}catch(e){alert(`QR transfer failed: ${e.message}`);}}}}}if(qrStream)scanFrame=requestAnimationFrame(scanQrFrame);}
   function stopQrCamera(){if(scanFrame)cancelAnimationFrame(scanFrame);if(qrStream)qrStream.getTracks().forEach(t=>t.stop());qrStream=null;scanFrame=null;}
-  function closeQrPanel(){stopQrCamera();document.getElementById('qrPanel').hidden=true;}
+  function closeQrPanel(){stopQrCamera();clearInterval(qrCycle);document.getElementById('qrPanel').hidden=true;}
 
   function renderSchedule(){
     const grid=document.getElementById('scheduleGrid');
@@ -535,12 +556,13 @@
   });
 
   document.getElementById('reset').addEventListener('click', () => {
-    const total = daysInMonth(activeKey) * TASKS;
-    if(!confirm(`Clear all ${total} tasks for ${monthLabel(activeKey)}? This cannot be undone.`)) return;
-    const prefix = `${activeKey}-`;
-    Object.keys(state.checks).forEach(k => { if(k.startsWith(prefix)) delete state.checks[k]; });
+    const editableKeys=()=>Object.keys(state.checks).filter(key=>{const match=key.match(/^(\d{4}-\d{2}-\d{2})-T(\d+)$/);return match&&key.startsWith(`${activeKey}-`)&&!slotExpired(match[1],Number(match[2])-1);});
+    const keys=editableKeys();
+    if(!keys.length){alert('No completed editable tasks to reset. Expired tasks stay locked.');return;}
+    if(!confirm(`Reset ${keys.length} completed editable tasks in ${monthLabel(activeKey)}? Expired tasks will be preserved.`))return;
+    editableKeys().forEach(key=>delete state.checks[key]);
     save();
-    tbody.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+    tbody.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = state.checks[cb.dataset.key]===true; });
     updateProgress();
     updateSidebarBadges();
   });
