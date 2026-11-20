@@ -43,13 +43,19 @@
     .slot-timer{min-height:78px;margin:0 0 14px;padding:12px 18px;display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:16px;background:linear-gradient(110deg,#f0fdff,#f8fafc);border-color:#c9f1f5}.slot-timer .stat-label{font-size:.9rem;font-weight:700;color:var(--ink)}.slot-timer strong{font-size:1rem;font-weight:650;letter-spacing:.01em;font-variant-numeric:tabular-nums;color:var(--ink)}.slot-timer strong::before{content:none}
     #slotTimer .clock-value{display:inline-block;margin-left:8px;padding:7px 11px;border:1px solid #a5e9f0;border-radius:10px;background:linear-gradient(120deg,#ecfeff,#cffafe);color:#0e7490;font-size:1.65rem;font-weight:750;line-height:1;letter-spacing:.04em;font-variant-numeric:tabular-nums;box-shadow:inset 0 1px 0 #ffffffb3}
     #slotTimer .slot-name{display:inline-block;padding:4px 8px;border-radius:7px;background:#d1fae5;color:#047857;font-size:.9rem;font-weight:800;letter-spacing:.025em}
-    .panel{overflow:hidden}.table-wrap{overflow:auto;max-height:75vh}table{width:100%;border-collapse:separate;border-spacing:0;min-width:790px}th,td{border-bottom:1px solid var(--line);padding:9px 7px;text-align:center}thead th{position:sticky;top:0;background:#f8fafc;z-index:2;font-size:.85rem}th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:#fff;text-align:left;padding-left:16px;white-space:nowrap;min-width:125px}thead th:first-child{z-index:3;background:#f8fafc}tbody tr:hover td{background:#f8fbff}tbody tr:hover td:first-child{background:#f8fbff}tbody tr.today td{background:#eff6ff}tbody tr.today td:first-child{background:#eff6ff}tbody tr:last-child td{border-bottom:0}td small{display:block;color:var(--muted);font-size:.7rem;margin-top:2px}input[type=checkbox]{width:20px;height:20px;accent-color:#16a34a;cursor:pointer;vertical-align:middle}input[type=checkbox].past-date{accent-color:#16a34a;cursor:not-allowed}input[type=checkbox].past-date:not(:checked){appearance:none;border:1px solid #e8a0a0;border-radius:4px;background:#fff1f1}tfoot td{font-weight:600;background:#f8fafc}tfoot td:first-child{background:#f8fafc}footer{margin-top:14px;color:var(--muted);font-size:.85rem;line-height:1.5}
+    .panel{overflow:hidden}.table-wrap{overflow:auto;max-height:75vh}table{width:100%;border-collapse:separate;border-spacing:0;min-width:790px}th,td{border-bottom:1px solid var(--line);padding:9px 7px;text-align:center}thead th{position:sticky;top:0;background:#f8fafc;z-index:2;font-size:.85rem}th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:#fff;text-align:left;padding-left:16px;white-space:nowrap;min-width:125px}thead th:first-child{z-index:3;background:#f8fafc}tbody tr:hover td{background:#f8fbff}tbody tr:hover td:first-child{background:#f8fbff}tbody tr.today td{background:#eff6ff}tbody tr.today td:first-child{background:#eff6ff}tbody tr:last-child td{border-bottom:0}td small{display:block;color:var(--muted);font-size:.7rem;margin-top:2px}input[type=checkbox]{width:20px;height:20px;accent-color:#16a34a;cursor:pointer;vertical-align:middle}input[type=checkbox].past-date{accent-color:#16a34a;cursor:not-allowed}input[type=checkbox].past-date:not(:checked){appearance:none;border:1px solid #dc2626;border-radius:4px;background:#fecaca}tfoot td{font-weight:600;background:#f8fafc}tfoot td:first-child{background:#f8fafc}footer{margin-top:14px;color:var(--muted);font-size:.85rem;line-height:1.5}
+    tbody tr.today td,tbody tr.today td:first-child{background:#dbeafe;border-top:2px solid #22b8c7;border-bottom:2px solid #22b8c7}.today td:first-child{border-left:2px solid #22b8c7;border-radius:9px 0 0 9px;box-shadow:inset 3px 0 0 #3b82f6}.today td:last-child{border-right:2px solid #22b8c7;border-radius:0 9px 9px 0}td.active-slot-cell{background:#cffafe!important;box-shadow:inset 0 0 0 2px #06b6d4}td.active-slot-cell input{accent-color:#0891b2}th.active-slot-head{background:#cffafe!important;color:#0e7490}
     .schedule{margin:0 0 16px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:#fff}.schedule summary{cursor:pointer;font-weight:600}.schedule-grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:9px;margin-top:12px}.schedule-grid label{display:grid;grid-template-columns:30px 1fr 1fr;align-items:center;gap:6px;color:var(--muted);font-size:.85rem}.schedule-grid input{width:100%;min-width:0;padding:6px;border:1px solid var(--line);border-radius:7px;font:inherit;color:var(--ink)}
     :root[data-theme="dark"] body,:root[data-theme="dark"] .sidebar,:root[data-theme="dark"] .stat,:root[data-theme="dark"] .panel,:root[data-theme="dark"] .schedule,:root[data-theme="dark"] button,:root[data-theme="dark"] .theme-choice select,:root[data-theme="dark"] .schedule-grid input{background:var(--surface);color:var(--ink)}:root[data-theme="dark"] .slot-timer{background:linear-gradient(110deg,#102a32,#1f2937);border-color:#28515a}:root[data-theme="dark"] #slotTimer .clock-value{background:linear-gradient(120deg,#12343b,#164e63);border-color:#267080;color:#a5f3fc;box-shadow:inset 0 1px 0 #ffffff12}:root[data-theme="dark"] .stats-toolbar button[aria-pressed="true"],:root[data-theme="dark"] .month-link.active{background:var(--soft-blue);color:var(--accent)}:root[data-theme="dark"] thead th,:root[data-theme="dark"] tfoot td,:root[data-theme="dark"] tfoot td:first-child{background:var(--surface-alt)}:root[data-theme="dark"] th:first-child,:root[data-theme="dark"] td:first-child{background:var(--surface)}:root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr:hover td:first-child{background:var(--hover)}:root[data-theme="dark"] tbody tr.today td,:root[data-theme="dark"] tbody tr.today td:first-child{background:var(--soft-blue)}:root[data-theme="dark"] .progress{background:#374151}:root[data-theme="dark"] .danger{color:#fca5a5}:root[data-theme="dark"] .add-month{border-color:#4b5563}
-    :root[data-theme="dark"] body,:root[data-theme="dark"] .sidebar,:root[data-theme="dark"] .stat,:root[data-theme="dark"] .panel,:root[data-theme="dark"] .schedule,:root[data-theme="dark"] button,:root[data-theme="dark"] .theme-choice select,:root[data-theme="dark"] .schedule-grid input{background:var(--surface);color:var(--ink)}:root[data-theme="dark"] .slot-timer{background:linear-gradient(110deg,#102a32,#1f2937);border-color:#28515a}:root[data-theme="dark"] #slotTimer .clock-value{background:linear-gradient(120deg,#12343b,#164e63);border-color:#267080;color:#a5f3fc;box-shadow:inset 0 1px 0 #ffffff12}:root[data-theme="dark"] #slotTimer .slot-name{background:#123b37;color:#6ee7b7}:root[data-theme="dark"] .stats-toolbar button[aria-pressed="true"],:root[data-theme="dark"] .month-link.active{background:var(--soft-blue);color:var(--accent)}:root[data-theme="dark"] thead th,:root[data-theme="dark"] tfoot td,:root[data-theme="dark"] tfoot td:first-child{background:var(--surface-alt)}:root[data-theme="dark"] th:first-child,:root[data-theme="dark"] td:first-child{background:var(--surface)}:root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr:hover td:first-child{background:var(--hover)}:root[data-theme="dark"] tbody tr.today td,:root[data-theme="dark"] tbody tr.today td:first-child{background:var(--soft-blue)}:root[data-theme="dark"] tbody tr.today:hover td,:root[data-theme="dark"] tbody tr.today:hover td:first-child{background:var(--hover)}:root[data-theme="dark"] .progress{background:#374151}:root[data-theme="dark"] .danger{color:#fca5a5}:root[data-theme="dark"] .add-month{border-color:#4b5563}
+    :root[data-theme="dark"] tbody tr.today td,:root[data-theme="dark"] tbody tr.today td:first-child{background:#29486b;border-color:#22d3ee}:root[data-theme="dark"] .today td:first-child{border-left:2px solid #22d3ee;box-shadow:inset 3px 0 0 #60a5fa}:root[data-theme="dark"] .today td:last-child{border-right:2px solid #22d3ee}:root[data-theme="dark"] td.active-slot-cell{background:#164e63!important;box-shadow:inset 0 0 0 2px #22d3ee}:root[data-theme="dark"] th.active-slot-head{background:#164e63!important;color:#a5f3fc}
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]) body,:root:not([data-theme="light"]):not([data-theme="dark"]) .sidebar,:root:not([data-theme="light"]):not([data-theme="dark"]) .stat,:root:not([data-theme="light"]):not([data-theme="dark"]) .panel,:root:not([data-theme="light"]):not([data-theme="dark"]) .schedule,:root:not([data-theme="light"]):not([data-theme="dark"]) button,:root:not([data-theme="light"]):not([data-theme="dark"]) .theme-choice select,:root:not([data-theme="light"]):not([data-theme="dark"]) .schedule-grid input{background:var(--surface);color:var(--ink)}:root:not([data-theme="light"]):not([data-theme="dark"]) thead th,:root:not([data-theme="light"]):not([data-theme="dark"]) tfoot td{background:var(--surface-alt)}:root:not([data-theme="light"]):not([data-theme="dark"]) th:first-child,:root:not([data-theme="light"]):not([data-theme="dark"]) td:first-child{background:var(--surface)}}
     :root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr.today:hover td{background:#26364d!important}
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]) tbody tr:hover td,:root:not([data-theme="light"]):not([data-theme="dark"]) tbody tr.today:hover td{background:#26364d!important}}
+    :root[data-theme="dark"] input[type=checkbox].past-date:not(:checked){background:#7f1d1d;border-color:#ef4444}
+    .table-controls{display:flex;justify-content:flex-end;padding:7px 10px 0}.table-controls button{padding:6px 10px;font-size:.85rem}
+    #tableViewport{overflow:auto;height:var(--table-viewport-height,300px);max-height:none;overflow-anchor:none;scroll-behavior:auto}
+    #tableScrollTail{height:var(--table-tail-height,0px);pointer-events:none}
+    @media print{#tableViewport{height:auto;max-height:none;overflow:visible}.table-controls,#tableScrollTail{display:none}}
     @media(max-width:860px){.app{grid-template-columns:minmax(0,1fr);padding:18px 12px 50px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;border-radius:0 16px 16px 0;z-index:50;transform:translateX(-105%);transition:transform .22s ease;box-shadow:0 20px 60px #0f172a33}.sidebar.open{transform:none}.backdrop{display:block;position:fixed;inset:0;z-index:40;background:#0f172a66}.backdrop[hidden]{display:none}.menu-toggle{display:inline-flex}}
     @media(max-width:600px){.app{padding:16px 10px 40px}.stats{gap:8px}.stat{padding:12px;min-height:100px}.stat strong{font-size:1.15rem}.stat span{font-size:.75rem}.slot-timer{align-items:flex-start;flex-direction:column;gap:6px;min-height:0}th,td{padding:10px 6px}.month-link{padding:9px 8px}}
     @media print{body{background:#fff}.app{display:block;max-width:none;padding:0}main{max-width:none;padding:0}.sidebar,.backdrop,.menu-toggle,.actions,footer{display:none!important}.panel,.stat{box-shadow:none}.table-wrap{max-height:none;overflow:visible}table{min-width:0}thead th,th:first-child,td:first-child{position:static}input[type=checkbox]{print-color-adjust:exact}tr{break-inside:avoid}}
@@ -87,7 +93,17 @@
     <div class="stat slot-timer" role="status" aria-live="off"><span class="stat-label">Current time slot</span><strong id="slotTimer">Waiting for a slot…</strong></div>
     <details class="schedule"><summary>Task time slots · each task expires at its editable end time</summary><div class="schedule-grid" id="scheduleGrid"></div></details>
     <section id="qrPanel" class="schedule" hidden><button id="closeQr" type="button">Close</button><p id="qrStatus">Transfer QR</p><canvas id="qrCanvas"></canvas><video id="qrVideo" playsinline hidden></video><button id="nextQr" type="button" hidden>Next code</button></section>
-    <section class="panel" aria-label="Daily task checklist"><div class="table-wrap"><table id="tracker"><thead><tr><th scope="col">Date</th><th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th><th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th><th scope="col">T7</th><th scope="col">T8</th><th scope="col">T9</th><th scope="col">T10</th><th scope="col">T11</th></tr></thead><tbody id="rows"></tbody><tfoot><tr><td>Completed</td><td colspan="11" id="footerCount">0 of 330 tasks checked</td></tr></tfoot></table></div></section>
+    <section class="panel" aria-label="Daily task checklist">
+      <div class="table-controls"><button type="button" id="tableExpand" aria-expanded="false" aria-controls="tableViewport">Expand table</button></div>
+      <div class="table-wrap" id="tableViewport" tabindex="0" role="region" aria-label="Scrollable daily tasks">
+        <table id="tracker">
+          <thead><tr><th scope="col">Date</th><th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th><th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th><th scope="col">T7</th><th scope="col">T8</th><th scope="col">T9</th><th scope="col">T10</th><th scope="col">T11</th></tr></thead>
+          <tbody id="rows"></tbody>
+          <tfoot><tr><td>Completed</td><td colspan="11" id="footerCount">0 of 330 tasks checked</td></tr></tfoot>
+        </table>
+        <div id="tableScrollTail" aria-hidden="true"></div>
+      </div>
+    </section>
     <footer>✓ Your changes are saved automatically in this browser. Data is stored locally on your device, not synced between browsers or devices. No account or server is required.</footer>
   </main>
 </div>
@@ -111,6 +127,38 @@
   const backdrop = document.getElementById('backdrop');
   const menuToggle = document.getElementById('menuToggle');
   let statsPeriod = 'monthly';
+  let tableExpanded=false;
+  const tableViewport=document.getElementById('tableViewport');
+  const tableExpand=document.getElementById('tableExpand');
+  const trackerTable=document.getElementById('tracker');
+  let tableLayoutFrame;
+
+  function layoutTaskTable(alignToday=false){
+    const rows=Array.from(tbody.rows);
+    if(!rows.length)return;
+    const todayRow=tbody.querySelector('tr.today');
+    const firstIndex=todayRow?rows.indexOf(todayRow):0;
+    const regularRow=rows.find(row=>row!==todayRow)||rows[0];
+    const headerHeight=trackerTable.tHead.getBoundingClientRect().height;
+    let fiveRowsHeight=0;
+    for(let i=0;i<5;i++)fiveRowsHeight+=(rows[firstIndex+i]||regularRow).getBoundingClientRect().height;
+    const scrollbarHeight=tableViewport.offsetHeight-tableViewport.clientHeight;
+    const compactHeight=Math.ceil(headerHeight+fiveRowsHeight+scrollbarHeight);
+    const height=tableExpanded?Math.max(compactHeight,Math.round(window.innerHeight*.75)):compactHeight;
+    tableViewport.style.setProperty('--table-viewport-height',`${height}px`);
+    // Allow even the final day of a month to sit directly below the sticky header.
+    const target=todayRow?Math.max(0,todayRow.getBoundingClientRect().top-tableViewport.getBoundingClientRect().top+tableViewport.scrollTop-headerHeight):0;
+    const tailHeight=todayRow?Math.max(0,Math.ceil(target+tableViewport.clientHeight-trackerTable.getBoundingClientRect().height)):0;
+    tableViewport.style.setProperty('--table-tail-height',`${tailHeight}px`);
+    tableExpand.textContent=tableExpanded?'Collapse table':'Expand table';
+    tableExpand.setAttribute('aria-expanded',String(tableExpanded));
+    if(alignToday)tableViewport.scrollTop=target;
+  }
+
+  function scheduleTableLayout(alignToday=false){
+    cancelAnimationFrame(tableLayoutFrame);
+    tableLayoutFrame=requestAnimationFrame(()=>layoutTaskTable(alignToday));
+  }
   const savedTheme=localStorage.getItem('daily-task-tracker-theme');
   let themeChoice=['system','light','dark'].includes(savedTheme)?savedTheme:'system';
   function applyTheme(){if(themeChoice==='system'){if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark';else document.documentElement.removeAttribute('data-theme');}else document.documentElement.dataset.theme=themeChoice;const b=document.getElementById('themeToggle');const names={system:'System theme',light:'Light theme',dark:'Dark theme'};b.setAttribute('aria-label',`Color theme: ${names[themeChoice]}`);b.title=`Color theme: ${names[themeChoice]}`;b.innerHTML=themeChoice==='light'?'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>':themeChoice==='dark'?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>';}
@@ -284,6 +332,19 @@
     document.getElementById('slotTimer').innerHTML=message;
   }
 
+  function updateActiveSlotHighlight(){
+    tbody.querySelectorAll('.active-slot-cell').forEach(cell=>cell.classList.remove('active-slot-cell'));
+    document.querySelectorAll('#tracker thead .active-slot-head').forEach(cell=>cell.classList.remove('active-slot-head'));
+    if(activeKey!==todayMonthKey)return;
+    const now=new Date(), minutes=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
+    const index=state.taskTimes.findIndex((time,i)=>{const [h,m]=time.split(':').map(Number);const start=h*60+m;return minutes>=start&&minutes<start+state.taskDurations[i];});
+    if(index<0)return;
+    const row=tbody.querySelector('tr.today');
+    if(row&&row.children[index+1])row.children[index+1].classList.add('active-slot-cell');
+    const head=document.querySelector(`#tracker thead th:nth-child(${index+2})`);
+    if(head)head.classList.add('active-slot-head');
+  }
+
   function monthStats(key){
     const days = daysInMonth(key), total = days * TASKS;
     let count = 0;
@@ -358,6 +419,8 @@
     tbody.appendChild(frag);
     applyCheckboxLocks();
     updateProgress();
+    scheduleTableLayout(true);
+    updateActiveSlotHighlight();
   }
 
   function updateProgress(){
@@ -481,6 +544,8 @@
   });
 
   document.getElementById('print').addEventListener('click', () => window.print());
+  tableExpand.addEventListener('click',()=>{tableExpanded=!tableExpanded;layoutTaskTable(true);});
+  window.addEventListener('resize',()=>scheduleTableLayout());
   document.getElementById('exportData').addEventListener('click', exportData);
   document.getElementById('showQr').addEventListener('click',showTransferQr);
   document.getElementById('scanQr').addEventListener('click',scanTransferQr);
@@ -497,7 +562,7 @@
   renderSchedule();
   renderSidebar();
   renderMonth();
-  window.setInterval(()=>{ syncCurrentMonth(); applyCheckboxLocks(); updateSlotTimer(); }, 1000);
+  window.setInterval(()=>{ syncCurrentMonth(); applyCheckboxLocks(); updateSlotTimer(); updateActiveSlotHighlight(); }, 1000);
   updateSlotTimer();
   save(true);
 })();
