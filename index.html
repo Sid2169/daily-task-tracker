@@ -6,16 +6,20 @@
   <meta name="theme-color" content="#111827">
   <title>Daily Task Tracker | November 2026</title>
   <style>
-    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--bg:#f6f8fc}
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--bg:#f6f8fc;--surface:#fff;--surface-alt:#f8fafc;--hover:#eef4ff;--soft-blue:#e8f0ff}
+    :root[data-theme="dark"]{color-scheme:dark;--ink:#e5e7eb;--muted:#a3adbd;--line:#374151;--accent:#60a5fa;--bg:#111827;--surface:#1f2937;--surface-alt:#273449;--hover:#26364d;--soft-blue:#1e3a5f}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]){color-scheme:dark;--ink:#e5e7eb;--muted:#a3adbd;--line:#374151;--accent:#60a5fa;--bg:#111827;--surface:#1f2937;--surface-alt:#273449;--hover:#26364d;--soft-blue:#1e3a5f}}
+    body,.sidebar,.stat,.panel,.schedule{background:var(--surface)}button{background:var(--surface);color:var(--ink);border-color:var(--line)}button:hover,.month-link:hover,.add-month:hover{background:var(--hover)}.month-link.active,.stats-toolbar button[aria-pressed="true"]{background:var(--soft-blue)}thead th,tfoot td,tfoot td:first-child{background:var(--surface-alt)}th:first-child,td:first-child{background:var(--surface)}tbody tr:hover td,tbody tr:hover td:first-child{background:var(--hover)}tbody tr.today td,tbody tr.today td:first-child{background:var(--soft-blue)}.month-link.active,.month-link.active small,.add-month{color:var(--accent)}.theme-choice{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.9rem}.theme-choice select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}
     .app{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;max-width:1400px;margin:0 auto;padding:28px 16px 60px;align-items:start}
     main{min-width:0}
-    header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+    header{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:22px;padding-right:50px}
     .heading{display:flex;gap:10px;align-items:flex-start}
     h1{font-size:clamp(1.6rem,4vw,2.25rem);margin:0 0 8px;letter-spacing:-.035em}
     p{margin:0;color:var(--muted);line-height:1.5}
     button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 13px;cursor:pointer;color:var(--ink)}
     button:hover{background:#eef4ff}
+    .theme-toggle{position:absolute;top:0;right:0;display:grid;place-items:center;width:42px;height:42px;padding:9px;border-radius:12px;color:var(--accent)}.theme-toggle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
     button:focus-visible,input:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
     .danger{color:#b91c1c}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
@@ -34,10 +38,20 @@
     .add-month{width:100%;border-style:dashed;color:var(--accent);background:#f8fbff;font-weight:600}
     .add-month:hover{background:#eef4ff}
     .backdrop{display:none}
-    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 18px #17203308}.stat{padding:18px}.stat strong{display:block;font-size:1.5rem;margin-top:5px}.stat span{color:var(--muted);font-size:.85rem}.progress{height:9px;border-radius:99px;background:#e2e8f0;overflow:hidden;margin-top:12px}.progress>div{height:100%;background:#22a06b;width:0%;transition:width .2s}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 3px 12px #17203308}.stat{min-height:118px;padding:16px 18px;display:flex;flex-direction:column;justify-content:center;gap:5px}.stat .stat-label{color:var(--muted);font-size:.78rem;font-weight:600;letter-spacing:.025em}.stat strong{display:block;font-size:1.55rem;line-height:1.2;letter-spacing:-.025em;margin:0;font-variant-numeric:tabular-nums}.stat .stat-note{color:var(--muted);font-size:.78rem}.progress{height:6px;border-radius:99px;background:#e2e8f0;overflow:hidden;margin-top:6px}.progress>div{height:100%;background:#22a06b;width:0%;transition:width .2s}.stats-toolbar{display:flex;justify-content:flex-end;gap:6px;margin-bottom:10px}.stats-toolbar button{padding:6px 12px;font-size:.9rem}.stats-toolbar button[aria-pressed="true"]{border-color:#bfdbfe;background:#e8f0ff;color:#1d4ed8;font-weight:600}
+    .missed-card{border-left:4px solid #f59e0b}.missed-card #wastedPercentage{font-size:1.65rem;line-height:1.1;font-weight:750;letter-spacing:-.035em;color:#c2410c}.missed-card #wastedBoxes{font-size:.9rem;color:var(--muted);font-weight:600;letter-spacing:0}.missed-card[data-level="low"] #wastedPercentage{color:#15803d}.missed-card[data-level="medium"] #wastedPercentage{color:#b45309}.missed-card[data-level="high"] #wastedPercentage{color:#b91c1c}
+    .slot-timer{min-height:78px;margin:0 0 14px;padding:12px 18px;display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:16px;background:linear-gradient(110deg,#f0fdff,#f8fafc);border-color:#c9f1f5}.slot-timer .stat-label{font-size:.9rem;font-weight:700;color:var(--ink)}.slot-timer strong{font-size:1rem;font-weight:650;letter-spacing:.01em;font-variant-numeric:tabular-nums;color:var(--ink)}.slot-timer strong::before{content:none}
+    #slotTimer .clock-value{display:inline-block;margin-left:8px;padding:7px 11px;border:1px solid #a5e9f0;border-radius:10px;background:linear-gradient(120deg,#ecfeff,#cffafe);color:#0e7490;font-size:1.65rem;font-weight:750;line-height:1;letter-spacing:.04em;font-variant-numeric:tabular-nums;box-shadow:inset 0 1px 0 #ffffffb3}
+    #slotTimer .slot-name{display:inline-block;padding:4px 8px;border-radius:7px;background:#d1fae5;color:#047857;font-size:.9rem;font-weight:800;letter-spacing:.025em}
     .panel{overflow:hidden}.table-wrap{overflow:auto;max-height:75vh}table{width:100%;border-collapse:separate;border-spacing:0;min-width:790px}th,td{border-bottom:1px solid var(--line);padding:9px 7px;text-align:center}thead th{position:sticky;top:0;background:#f8fafc;z-index:2;font-size:.85rem}th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:#fff;text-align:left;padding-left:16px;white-space:nowrap;min-width:125px}thead th:first-child{z-index:3;background:#f8fafc}tbody tr:hover td{background:#f8fbff}tbody tr:hover td:first-child{background:#f8fbff}tbody tr.today td{background:#eff6ff}tbody tr.today td:first-child{background:#eff6ff}tbody tr:last-child td{border-bottom:0}td small{display:block;color:var(--muted);font-size:.7rem;margin-top:2px}input[type=checkbox]{width:20px;height:20px;accent-color:#16a34a;cursor:pointer;vertical-align:middle}input[type=checkbox].past-date{accent-color:#16a34a;cursor:not-allowed}input[type=checkbox].past-date:not(:checked){appearance:none;border:1px solid #e8a0a0;border-radius:4px;background:#fff1f1}tfoot td{font-weight:600;background:#f8fafc}tfoot td:first-child{background:#f8fafc}footer{margin-top:14px;color:var(--muted);font-size:.85rem;line-height:1.5}
-    @media(max-width:860px){.app{grid-template-columns:minmax(0,1fr);padding:18px 12px 50px}.sidebar{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;border-radius:0 16px 16px 0;z-index:50;transform:translateX(-105%);transition:transform .22s ease;box-shadow:0 20px 60px #0f172a33}.sidebar.open{transform:none}.backdrop{display:block;position:fixed;inset:0;z-index:40;background:#0f172a66}.backdrop[hidden]{display:none}.menu-toggle{display:inline-flex}}
-    @media(max-width:600px){.app{padding:16px 10px 40px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:1.15rem}.stat span{font-size:.75rem}th,td{padding:10px 6px}.month-link{padding:9px 8px}}
+    .schedule{margin:0 0 16px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:#fff}.schedule summary{cursor:pointer;font-weight:600}.schedule-grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:9px;margin-top:12px}.schedule-grid label{display:grid;grid-template-columns:30px 1fr 1fr;align-items:center;gap:6px;color:var(--muted);font-size:.85rem}.schedule-grid input{width:100%;min-width:0;padding:6px;border:1px solid var(--line);border-radius:7px;font:inherit;color:var(--ink)}
+    :root[data-theme="dark"] body,:root[data-theme="dark"] .sidebar,:root[data-theme="dark"] .stat,:root[data-theme="dark"] .panel,:root[data-theme="dark"] .schedule,:root[data-theme="dark"] button,:root[data-theme="dark"] .theme-choice select,:root[data-theme="dark"] .schedule-grid input{background:var(--surface);color:var(--ink)}:root[data-theme="dark"] .slot-timer{background:linear-gradient(110deg,#102a32,#1f2937);border-color:#28515a}:root[data-theme="dark"] #slotTimer .clock-value{background:linear-gradient(120deg,#12343b,#164e63);border-color:#267080;color:#a5f3fc;box-shadow:inset 0 1px 0 #ffffff12}:root[data-theme="dark"] .stats-toolbar button[aria-pressed="true"],:root[data-theme="dark"] .month-link.active{background:var(--soft-blue);color:var(--accent)}:root[data-theme="dark"] thead th,:root[data-theme="dark"] tfoot td,:root[data-theme="dark"] tfoot td:first-child{background:var(--surface-alt)}:root[data-theme="dark"] th:first-child,:root[data-theme="dark"] td:first-child{background:var(--surface)}:root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr:hover td:first-child{background:var(--hover)}:root[data-theme="dark"] tbody tr.today td,:root[data-theme="dark"] tbody tr.today td:first-child{background:var(--soft-blue)}:root[data-theme="dark"] .progress{background:#374151}:root[data-theme="dark"] .danger{color:#fca5a5}:root[data-theme="dark"] .add-month{border-color:#4b5563}
+    :root[data-theme="dark"] body,:root[data-theme="dark"] .sidebar,:root[data-theme="dark"] .stat,:root[data-theme="dark"] .panel,:root[data-theme="dark"] .schedule,:root[data-theme="dark"] button,:root[data-theme="dark"] .theme-choice select,:root[data-theme="dark"] .schedule-grid input{background:var(--surface);color:var(--ink)}:root[data-theme="dark"] .slot-timer{background:linear-gradient(110deg,#102a32,#1f2937);border-color:#28515a}:root[data-theme="dark"] #slotTimer .clock-value{background:linear-gradient(120deg,#12343b,#164e63);border-color:#267080;color:#a5f3fc;box-shadow:inset 0 1px 0 #ffffff12}:root[data-theme="dark"] #slotTimer .slot-name{background:#123b37;color:#6ee7b7}:root[data-theme="dark"] .stats-toolbar button[aria-pressed="true"],:root[data-theme="dark"] .month-link.active{background:var(--soft-blue);color:var(--accent)}:root[data-theme="dark"] thead th,:root[data-theme="dark"] tfoot td,:root[data-theme="dark"] tfoot td:first-child{background:var(--surface-alt)}:root[data-theme="dark"] th:first-child,:root[data-theme="dark"] td:first-child{background:var(--surface)}:root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr:hover td:first-child{background:var(--hover)}:root[data-theme="dark"] tbody tr.today td,:root[data-theme="dark"] tbody tr.today td:first-child{background:var(--soft-blue)}:root[data-theme="dark"] tbody tr.today:hover td,:root[data-theme="dark"] tbody tr.today:hover td:first-child{background:var(--hover)}:root[data-theme="dark"] .progress{background:#374151}:root[data-theme="dark"] .danger{color:#fca5a5}:root[data-theme="dark"] .add-month{border-color:#4b5563}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]) body,:root:not([data-theme="light"]):not([data-theme="dark"]) .sidebar,:root:not([data-theme="light"]):not([data-theme="dark"]) .stat,:root:not([data-theme="light"]):not([data-theme="dark"]) .panel,:root:not([data-theme="light"]):not([data-theme="dark"]) .schedule,:root:not([data-theme="light"]):not([data-theme="dark"]) button,:root:not([data-theme="light"]):not([data-theme="dark"]) .theme-choice select,:root:not([data-theme="light"]):not([data-theme="dark"]) .schedule-grid input{background:var(--surface);color:var(--ink)}:root:not([data-theme="light"]):not([data-theme="dark"]) thead th,:root:not([data-theme="light"]):not([data-theme="dark"]) tfoot td{background:var(--surface-alt)}:root:not([data-theme="light"]):not([data-theme="dark"]) th:first-child,:root:not([data-theme="light"]):not([data-theme="dark"]) td:first-child{background:var(--surface)}}
+    :root[data-theme="dark"] tbody tr:hover td,:root[data-theme="dark"] tbody tr.today:hover td{background:#26364d!important}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]) tbody tr:hover td,:root:not([data-theme="light"]):not([data-theme="dark"]) tbody tr.today:hover td{background:#26364d!important}}
+    @media(max-width:860px){.app{grid-template-columns:minmax(0,1fr);padding:18px 12px 50px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;border-radius:0 16px 16px 0;z-index:50;transform:translateX(-105%);transition:transform .22s ease;box-shadow:0 20px 60px #0f172a33}.sidebar.open{transform:none}.backdrop{display:block;position:fixed;inset:0;z-index:40;background:#0f172a66}.backdrop[hidden]{display:none}.menu-toggle{display:inline-flex}}
+    @media(max-width:600px){.app{padding:16px 10px 40px}.stats{gap:8px}.stat{padding:12px;min-height:100px}.stat strong{font-size:1.15rem}.stat span{font-size:.75rem}.slot-timer{align-items:flex-start;flex-direction:column;gap:6px;min-height:0}th,td{padding:10px 6px}.month-link{padding:9px 8px}}
     @media print{body{background:#fff}.app{display:block;max-width:none;padding:0}main{max-width:none;padding:0}.sidebar,.backdrop,.menu-toggle,.actions,footer{display:none!important}.panel,.stat{box-shadow:none}.table-wrap{max-height:none;overflow:visible}table{min-width:0}thead th,th:first-child,td:first-child{position:static}input[type=checkbox]{print-color-adjust:exact}tr{break-inside:avoid}}
   </style>
 </head>
@@ -61,21 +75,29 @@
           <p id="monthSubheading">1 – 30 November 2026 · 30 days · Tasks T1–T11</p>
         </div>
       </div>
-      <div class="actions"><button type="button" id="print">Print</button><button type="button" id="reset" class="danger">Reset month</button></div>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Color theme: System" title="Color theme: System"></button>
+      <div class="actions"><button type="button" id="exportData">Export data</button><button type="button" id="importData">Import data</button><button type="button" id="showQr">Show transfer QR</button><button type="button" id="scanQr">Scan transfer QR</button><input id="importFile" type="file" accept="application/json,.json" hidden><button type="button" id="print">Print</button><button type="button" id="reset" class="danger">Reset month</button></div>
     </header>
+    <div class="stats-toolbar" role="group" aria-label="Stats period"><button type="button" data-period="daily" aria-pressed="false">Daily</button><button type="button" data-period="weekly" aria-pressed="false">Weekly</button><button type="button" data-period="monthly" aria-pressed="true">Monthly</button></div>
     <section class="stats" aria-label="Progress summary">
-      <div class="stat"><span>Completed tasks</span><strong id="completed">0 / 330</strong></div>
-      <div class="stat"><span>Monthly progress</span><strong id="percentage">0%</strong><div class="progress" role="progressbar" aria-label="Monthly task completion" aria-valuemin="0" aria-valuemax="330" aria-valuenow="0" id="progress"><div id="progressFill"></div></div></div>
-      <div class="stat"><span>Fully completed days</span><strong id="days">0 / 30</strong></div>
+      <div class="stat"><span class="stat-label" id="progressLabel">Monthly progress</span><strong id="percentage">0%</strong><span class="stat-note" id="completed">0 / 330 tasks completed</span><div class="progress" role="progressbar" aria-label="Monthly task completion" aria-valuemin="0" aria-valuemax="330" aria-valuenow="0" id="progress"><div id="progressFill"></div></div></div>
+      <div class="stat"><span class="stat-label">Days completed</span><strong id="daysPercentage">0%</strong><span class="stat-note" id="days">0 / 30 days</span></div>
+      <div class="stat missed-card" id="missedCard" data-level="low"><span class="stat-label">Missed tasks</span><span class="stat-note" id="wastedBoxes">0 / 330 tasks</span><strong id="wastedPercentage">0%</strong><span class="stat-note">of all tasks</span></div>
     </section>
+    <div class="stat slot-timer" role="status" aria-live="off"><span class="stat-label">Current time slot</span><strong id="slotTimer">Waiting for a slot…</strong></div>
+    <details class="schedule"><summary>Task time slots · each task expires at its editable end time</summary><div class="schedule-grid" id="scheduleGrid"></div></details>
+    <section id="qrPanel" class="schedule" hidden><button id="closeQr" type="button">Close</button><p id="qrStatus">Transfer QR</p><canvas id="qrCanvas"></canvas><video id="qrVideo" playsinline hidden></video><button id="nextQr" type="button" hidden>Next code</button></section>
     <section class="panel" aria-label="Daily task checklist"><div class="table-wrap"><table id="tracker"><thead><tr><th scope="col">Date</th><th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th><th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th><th scope="col">T7</th><th scope="col">T8</th><th scope="col">T9</th><th scope="col">T10</th><th scope="col">T11</th></tr></thead><tbody id="rows"></tbody><tfoot><tr><td>Completed</td><td colspan="11" id="footerCount">0 of 330 tasks checked</td></tr></tfoot></table></div></section>
     <footer>✓ Your changes are saved automatically in this browser. Data is stored locally on your device, not synced between browsers or devices. No account or server is required.</footer>
   </main>
 </div>
+<script src="vendor/qr-transfer.js"></script>
 <script>
 (()=>{
   'use strict';
   const TASKS = 11;
+  const DEFAULT_TASK_TIMES = ['05:30','06:40','07:50','09:00','10:10','12:40','13:50','15:00','16:10','20:00','21:10'];
+  const DEFAULT_TASK_DURATIONS = Array(TASKS).fill(60);
   const STORAGE_KEY = 'daily-task-tracker-v2';
   const LEGACY_KEY = 'daily-task-tracker-2026-11-17-v1';
   const DEFAULT_MONTHS = ['2026-11', '2026-12'];
@@ -88,12 +110,20 @@
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('backdrop');
   const menuToggle = document.getElementById('menuToggle');
+  let statsPeriod = 'monthly';
+  const savedTheme=localStorage.getItem('daily-task-tracker-theme');
+  let themeChoice=['system','light','dark'].includes(savedTheme)?savedTheme:'system';
+  function applyTheme(){if(themeChoice==='system'){if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark';else document.documentElement.removeAttribute('data-theme');}else document.documentElement.dataset.theme=themeChoice;const b=document.getElementById('themeToggle');const names={system:'System theme',light:'Light theme',dark:'Dark theme'};b.setAttribute('aria-label',`Color theme: ${names[themeChoice]}`);b.title=`Color theme: ${names[themeChoice]}`;b.innerHTML=themeChoice==='light'?'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>':themeChoice==='dark'?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>';}
+  document.getElementById('themeToggle').addEventListener('click',()=>{const modes=['system','light','dark'];themeChoice=modes[(modes.indexOf(themeChoice)+1)%modes.length];localStorage.setItem('daily-task-tracker-theme',themeChoice);applyTheme();});
+  applyTheme();
   const monthNameFmt = new Intl.DateTimeFormat('en-GB', {month:'long', timeZone:'UTC'});
   const fmt = new Intl.DateTimeFormat('en-GB', {day:'numeric', month:'short', timeZone:'UTC'});
   const weekday = new Intl.DateTimeFormat('en-GB', {weekday:'short', timeZone:'UTC'});
   const today = new Date();
-  const todayKey = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
-  const todayMonthKey = `${today.getFullYear()}-${pad(today.getMonth()+1)}`;
+  function localTodayKey(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+  function localTodayMonthKey(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}`; }
+  let todayKey=localTodayKey();
+  let todayMonthKey=localTodayMonthKey();
 
   function pad(n){ return String(n).padStart(2, '0'); }
   function isValidMonthKey(key){ return typeof key === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(key); }
@@ -104,7 +134,7 @@
   function nextMonthKey(key){ const {year, month} = monthParts(key); return month === 12 ? `${year+1}-01` : `${year}-${pad(month+1)}`; }
 
   function loadState(){
-    let months = null, checks = null;
+    let months = null, checks = null, taskTimes = DEFAULT_TASK_TIMES.slice(), taskDurations = DEFAULT_TASK_DURATIONS.slice();
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if(raw){
@@ -112,6 +142,8 @@
         if(data && Array.isArray(data.months) && data.checks && typeof data.checks === 'object' && !Array.isArray(data.checks)){
           const filtered = Array.from(new Set(data.months.filter(isValidMonthKey))).sort();
           if(filtered.length){ months = filtered; checks = {...data.checks}; }
+          if(Array.isArray(data.taskTimes) && data.taskTimes.length === TASKS && data.taskTimes.every(v=>/^([01]\d|2[0-3]):[0-5]\d$/.test(v))) taskTimes = data.taskTimes.slice();
+          if(Array.isArray(data.taskDurations) && data.taskDurations.length === TASKS && data.taskDurations.every(v=>Number.isInteger(v) && v>=1 && v<=1440)) taskDurations = data.taskDurations.slice();
         }
       }
     } catch(err) { console.warn('Saved tracker could not be read.', err); }
@@ -123,7 +155,7 @@
         if(legacy && typeof legacy === 'object' && !Array.isArray(legacy)) checks = {...legacy};
       } catch(err) { console.warn('Previous checklist could not be read.', err); }
     }
-    return {months, checks};
+    return {months, checks, taskTimes, taskDurations};
   }
 
   const state = loadState();
@@ -135,6 +167,121 @@
       if(silent) console.warn(err);
       else alert('Could not save progress in this browser. Check your storage settings.');
     }
+  }
+
+  function exportData(){
+    const backup={format:'daily-task-tracker',version:1,months:state.months,checks:state.checks,taskTimes:state.taskTimes,taskDurations:state.taskDurations,theme:themeChoice};
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob); const link=document.createElement('a');
+    link.href=url; link.download=`daily-task-tracker-${localTodayMonthKey()}.json`; link.click(); URL.revokeObjectURL(url);
+  }
+
+  function validateBackup(data){
+    if(!data||data.format!=='daily-task-tracker'||data.version!==1||!Array.isArray(data.months)||!data.months.length||!data.months.every(isValidMonthKey)||!data.checks||typeof data.checks!=='object'||Array.isArray(data.checks)) throw new Error('This file is not a valid tracker backup.');
+    if(!Array.isArray(data.taskTimes)||data.taskTimes.length!==TASKS||!data.taskTimes.every(v=>typeof v==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(v))) throw new Error('The backup has invalid task start times.');
+    if(!Array.isArray(data.taskDurations)||data.taskDurations.length!==TASKS||!data.taskDurations.every(v=>Number.isInteger(v)&&v>=1&&v<=1440)) throw new Error('The backup has invalid task durations.');
+    if(!['system','light','dark'].includes(data.theme)) throw new Error('The backup has an invalid theme setting.');
+    for(const [key,value] of Object.entries(data.checks)) if(!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])-T(1[01]|[1-9])$/.test(key)||value!==true) throw new Error('The backup contains invalid task records.');
+    return data;
+  }
+
+  async function importDataFile(file){
+    try{
+      const incoming=validateBackup(JSON.parse(await file.text()));
+      const mode=confirm('Choose OK to merge this backup with existing data. Choose Cancel to replace existing tracker data.');
+      if(mode){
+        state.months=Array.from(new Set([...state.months,...incoming.months])).sort();
+        state.checks={...state.checks,...incoming.checks};
+      } else {
+        state.months=Array.from(new Set(incoming.months)).sort();
+        state.checks={...incoming.checks};
+      }
+      state.taskTimes=incoming.taskTimes.slice(); state.taskDurations=incoming.taskDurations.slice();
+      localStorage.setItem('daily-task-tracker-theme',incoming.theme);
+      themeChoice=incoming.theme; applyTheme();
+      activeKey=state.months.includes(todayMonthKey)?todayMonthKey:state.months[state.months.length-1];
+      save(); renderSchedule(); renderSidebar(); renderMonth(); updateSlotTimer();
+      alert('Tracker data imported successfully.');
+    } catch(err){ alert(`Import failed: ${err.message||'Could not read this file.'}`); }
+  }
+
+  const qrEncoder=window.require&&window.require('qrcode');
+  const qrDecoder=window.require&&window.require('jsqr');
+  let qrParts=[],qrIndex=0,qrSeen=new Set(),qrStream=null,scanFrame=null;
+  function currentBackup(){return {format:'daily-task-tracker',version:1,months:state.months,checks:state.checks,taskTimes:state.taskTimes,taskDurations:state.taskDurations,theme:themeChoice};}
+  async function showTransferQr(){
+    if(!qrEncoder){alert('QR encoder unavailable.');return;}
+    const bytes=btoa(unescape(encodeURIComponent(JSON.stringify(currentBackup()))));
+    const size=700; const count=Math.ceil(bytes.length/size); qrParts=Array.from({length:count},(_,i)=>`DTT1:${i+1}/${count}:${bytes.slice(i*size,(i+1)*size)}`); qrIndex=0;
+    document.getElementById('qrPanel').hidden=false; document.getElementById('qrVideo').hidden=true; document.getElementById('nextQr').hidden=count<2; await drawQrPart();
+  }
+  async function drawQrPart(){const canvas=document.getElementById('qrCanvas');await qrEncoder.toCanvas(canvas,qrParts[qrIndex],{width:320,margin:2});document.getElementById('qrStatus').textContent=`Transfer code ${qrIndex+1} of ${qrParts.length}`;}
+  async function scanTransferQr(){
+    if(!qrDecoder){alert('QR scanner unavailable.');return;}
+    try{qrStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});const video=document.getElementById('qrVideo');video.srcObject=qrStream;video.hidden=false;await video.play();document.getElementById('qrPanel').hidden=false;qrParts=[];qrSeen.clear();scanFrame=requestAnimationFrame(scanQrFrame);}catch(err){alert('Camera access failed. Use Import data to select a JSON backup instead.');}
+  }
+  async function scanQrFrame(){const video=document.getElementById('qrVideo');if(video.readyState>=2){const c=document.createElement('canvas');c.width=video.videoWidth;c.height=video.videoHeight;const x=c.getContext('2d');x.drawImage(video,0,0);const img=x.getImageData(0,0,c.width,c.height);const hit=qrDecoder(img.data,img.width,img.height);if(hit&&hit.data){const m=hit.data.match(/^DTT1:(\d+)\/(\d+):(.+)$/);if(m){const n=Number(m[1]),total=Number(m[2]);qrParts.length=total;qrParts[n-1]=m[3];qrSeen.add(n);document.getElementById('qrStatus').textContent=`Scanned ${qrSeen.size} of ${total} codes`;if(qrSeen.size===total){stopQrCamera();try{const raw=qrParts.join('');const data=JSON.parse(decodeURIComponent(escape(atob(raw))));validateBackup(data);const blob=new Blob([JSON.stringify(data)],{type:'application/json'});await importDataFile(new File([blob],'qr-backup.json',{type:'application/json'}));closeQrPanel();}catch(e){alert(`QR transfer failed: ${e.message}`);}}}}}scanFrame=requestAnimationFrame(scanQrFrame);}
+  function stopQrCamera(){if(scanFrame)cancelAnimationFrame(scanFrame);if(qrStream)qrStream.getTracks().forEach(t=>t.stop());qrStream=null;scanFrame=null;}
+  function closeQrPanel(){stopQrCamera();document.getElementById('qrPanel').hidden=true;}
+
+  function renderSchedule(){
+    const grid=document.getElementById('scheduleGrid');
+    grid.innerHTML='';
+    state.taskTimes.forEach((time,index)=>{
+      const label=document.createElement('label');
+      const task=document.createElement('strong'); task.textContent=`T${index+1}`; label.appendChild(task);
+      const input=document.createElement('input');
+      input.type='time'; input.value=time; input.setAttribute('aria-label',`T${index+1} start time`);
+      input.addEventListener('change',()=>{ if(!input.value)return; state.taskTimes[index]=input.value; save(); renderMonth(); });
+      const duration=document.createElement('input');
+      duration.type='number'; duration.min='1'; duration.max='1440'; duration.step='5'; duration.value=state.taskDurations[index]; duration.setAttribute('aria-label',`T${index+1} slot duration in minutes`); duration.title='Duration in minutes';
+      duration.addEventListener('change',()=>{ const value=Number(duration.value); if(!Number.isInteger(value)||value<1||value>1440){duration.value=state.taskDurations[index];return;} state.taskDurations[index]=value; save(); renderMonth(); });
+      label.append(input,duration); grid.appendChild(label);
+    });
+  }
+
+  function slotExpired(dateKey, taskIndex){
+    if(dateKey < todayKey) return true;
+    if(dateKey > todayKey) return false;
+    const [hours,minutes]=state.taskTimes[taskIndex].split(':').map(Number);
+    const expiry=hours*60+minutes+state.taskDurations[taskIndex];
+    const now=new Date();
+    return now.getHours()*60+now.getMinutes() >= expiry;
+  }
+
+  function applyCheckboxLocks(){
+    tbody.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+      const match=cb.dataset.key.match(/^(\d{4}-\d{2}-\d{2})-T(\d+)$/);
+      if(!match)return;
+      const expired=slotExpired(match[1],Number(match[2])-1);
+      cb.disabled=expired;
+      cb.classList.toggle('past-date',expired);
+    });
+  }
+
+  function updateSlotTimer(){
+    const now=new Date();
+    const nowMinutes=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
+    const current=state.taskTimes.map((time,index)=>{
+      const [h,m]=time.split(':').map(Number);
+      const start=h*60+m, end=start+state.taskDurations[index];
+      return {index,start,end};
+    }).find(slot=>nowMinutes>=slot.start && nowMinutes<slot.end);
+    let message;
+    if(current){
+      const remaining=Math.max(0,Math.ceil((current.end-nowMinutes)*60));
+      const h=String(Math.floor(remaining/3600)).padStart(2,'0');
+      const m=String(Math.floor(remaining%3600/60)).padStart(2,'0');
+      const s=String(remaining%60).padStart(2,'0');
+      message=`<span class="slot-name">T${current.index+1}</span> · <span class="clock-value">${h}:${m}:${s}</span> <span class="stat-note">remaining</span>`;
+    } else {
+      const next=state.taskTimes.map((time,index)=>{const [h,m]=time.split(':').map(Number);return {index,start:h*60+m};}).filter(slot=>slot.start>nowMinutes).sort((a,b)=>a.start-b.start)[0];
+      if(next){
+        const seconds=Math.ceil((next.start-nowMinutes)*60);
+        message=`Next: <span class="slot-name">T${next.index+1}</span> starts in <span class="clock-value">${String(Math.floor(seconds/3600)).padStart(2,'0')}:${String(Math.floor(seconds%3600/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}</span>`;
+      } else message='No more slots today';
+    }
+    document.getElementById('slotTimer').innerHTML=message;
   }
 
   function monthStats(key){
@@ -201,7 +348,7 @@
         cb.type = 'checkbox';
         cb.dataset.key = key;
         cb.checked = state.checks[key] === true;
-        if(dateKey < todayKey){ cb.disabled = true; cb.classList.add('past-date'); }
+        if(slotExpired(dateKey,t-1)){ cb.disabled = true; cb.classList.add('past-date'); }
         cb.setAttribute('aria-label', `${fmt.format(date)} ${year}, task T${t}`);
         td.appendChild(cb);
         tr.appendChild(td);
@@ -209,28 +356,52 @@
       frag.appendChild(tr);
     }
     tbody.appendChild(frag);
+    applyCheckboxLocks();
     updateProgress();
   }
 
   function updateProgress(){
-    const days = daysInMonth(activeKey), total = days * TASKS;
-    const count = Array.from(tbody.querySelectorAll('input[type="checkbox"]')).filter(cb => cb.checked).length;
+    let dateKeys = [];
+    if(statsPeriod === 'daily') dateKeys = [todayKey];
+    else if(statsPeriod === 'weekly'){
+      const now = new Date(`${todayKey}T00:00:00Z`);
+      const mondayOffset = (now.getUTCDay() + 6) % 7;
+      for(let i=0;i<7;i++){ const d = new Date(now); d.setUTCDate(now.getUTCDate() - mondayOffset + i); dateKeys.push(`${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`); }
+    } else {
+      for(let day=1;day<=daysInMonth(activeKey);day++) dateKeys.push(`${activeKey}-${pad(day)}`);
+    }
+    const total = dateKeys.length * TASKS;
+    let count = 0;
+    for(const dateKey of dateKeys) for(let t=1;t<=TASKS;t++) if(state.checks[`${dateKey}-T${t}`] === true) count++;
     let fullDays = 0;
-    for(let day = 1; day <= days; day++){
-      const dateKey = `${activeKey}-${pad(day)}`;
+    let missedPastBoxes = 0;
+    for(const dateKey of dateKeys){
+      const isPast = dateKey < todayKey;
       let complete = true;
       for(let t = 1; t <= TASKS; t++){
-        if(state.checks[`${dateKey}-T${t}`] !== true){ complete = false; break; }
+        if(state.checks[`${dateKey}-T${t}`] !== true){
+          complete = false;
+          if(isPast) missedPastBoxes++;
+        }
       }
       if(complete) fullDays++;
     }
-    document.getElementById('completed').textContent = `${count} / ${total}`;
+    document.getElementById('completed').textContent = `${count} / ${total} tasks completed`;
     document.getElementById('percentage').textContent = `${Math.round(count / total * 100)}%`;
-    document.getElementById('days').textContent = `${fullDays} / ${days}`;
+    document.getElementById('days').textContent = `${fullDays} / ${dateKeys.length} days`;
+    document.getElementById('daysPercentage').textContent = `${Math.round(fullDays / dateKeys.length * 100)}%`;
+    document.getElementById('wastedBoxes').textContent = `${missedPastBoxes} / ${total} tasks`;
+    const periodLabel = statsPeriod[0].toUpperCase() + statsPeriod.slice(1);
+    document.querySelector('.stats').setAttribute('aria-label', `${periodLabel} progress summary`);
+    document.querySelector('.stats-toolbar').querySelectorAll('button').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.period===statsPeriod)));
+    document.getElementById('progressLabel').textContent = `${periodLabel} progress`;
+    const missedRate=Math.round(missedPastBoxes / total * 100);
+    document.getElementById('wastedPercentage').textContent = `${missedRate}%`;
+    document.getElementById('missedCard').dataset.level=missedRate>=50?'high':missedRate>=20?'medium':'low';
     progressFill.style.width = `${count / total * 100}%`;
     progressEl.setAttribute('aria-valuemax', String(total));
     progressEl.setAttribute('aria-valuenow', String(count));
-    document.getElementById('footerCount').textContent = `${count} of ${total} tasks checked`;
+    document.getElementById('footerCount').textContent = `${count} of ${total} ${statsPeriod} tasks checked`;
   }
 
   function openSidebar(){
@@ -271,6 +442,22 @@
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
+  function syncCurrentMonth(){
+    const previousDay=todayKey;
+    todayKey=localTodayKey();
+    const currentMonth=localTodayMonthKey();
+    if(currentMonth===todayMonthKey){ if(todayKey!==previousDay) renderMonth(); return; }
+    todayMonthKey=currentMonth;
+    if(!state.months.includes(currentMonth)){
+      state.months.push(currentMonth);
+      state.months.sort();
+      save();
+    }
+    activeKey=currentMonth;
+    renderSidebar();
+    renderMonth();
+  }
+
   tbody.addEventListener('change', e => {
     const cb = e.target;
     if(!cb.matches('input[type="checkbox"]')) return;
@@ -284,7 +471,7 @@
 
   document.getElementById('reset').addEventListener('click', () => {
     const total = daysInMonth(activeKey) * TASKS;
-    if(!confirm(`Clear all ${total} checkboxes for ${monthLabel(activeKey)}? This cannot be undone.`)) return;
+    if(!confirm(`Clear all ${total} tasks for ${monthLabel(activeKey)}? This cannot be undone.`)) return;
     const prefix = `${activeKey}-`;
     Object.keys(state.checks).forEach(k => { if(k.startsWith(prefix)) delete state.checks[k]; });
     save();
@@ -294,13 +481,24 @@
   });
 
   document.getElementById('print').addEventListener('click', () => window.print());
+  document.getElementById('exportData').addEventListener('click', exportData);
+  document.getElementById('showQr').addEventListener('click',showTransferQr);
+  document.getElementById('scanQr').addEventListener('click',scanTransferQr);
+  document.getElementById('closeQr').addEventListener('click',closeQrPanel);
+  document.getElementById('nextQr').addEventListener('click',()=>{qrIndex=(qrIndex+1)%qrParts.length;drawQrPart();});
+  document.getElementById('importData').addEventListener('click',()=>document.getElementById('importFile').click());
+  document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(file)importDataFile(file);e.target.value='';});
+  document.querySelector('.stats-toolbar').addEventListener('click', e=>{ const btn=e.target.closest('button[data-period]'); if(!btn)return; statsPeriod=btn.dataset.period; updateProgress(); });
   document.getElementById('addMonth').addEventListener('click', addMonth);
   menuToggle.addEventListener('click', () => { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
   backdrop.addEventListener('click', closeSidebar);
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeSidebar(); });
 
+  renderSchedule();
   renderSidebar();
   renderMonth();
+  window.setInterval(()=>{ syncCurrentMonth(); applyCheckboxLocks(); updateSlotTimer(); }, 1000);
+  updateSlotTimer();
   save(true);
 })();
 </script>
