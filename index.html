@@ -463,12 +463,11 @@
     let fullDays = 0;
     let missedPastBoxes = 0;
     for(const dateKey of dateKeys){
-      const isPast = dateKey < todayKey;
       let complete = true;
       for(let t = 1; t <= TASKS; t++){
         if(state.checks[`${dateKey}-T${t}`] !== true){
           complete = false;
-          if(isPast) missedPastBoxes++;
+          if(slotExpired(dateKey,t-1)) missedPastBoxes++;
         }
       }
       if(complete) fullDays++;
@@ -588,7 +587,7 @@
   renderSchedule();
   renderSidebar();
   renderMonth();
-  window.setInterval(()=>{ syncCurrentMonth(); applyCheckboxLocks(); updateSlotTimer(); updateActiveSlotHighlight(); }, 1000);
+  window.setInterval(()=>{ syncCurrentMonth(); applyCheckboxLocks(); updateSlotTimer(); updateActiveSlotHighlight(); updateProgress(); }, 1000);
   updateSlotTimer();
   save(true);
 })();
